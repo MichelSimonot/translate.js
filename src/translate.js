@@ -10,15 +10,15 @@
  *       translationKey: 'value123'
  *   }
  * }
- * 
+ *
  * var options = {
  *     // These are the defaults:
  *     debug: false, //[Boolean]: Logs missing translations to console and adds @@-markers around output.
  *     namespaceSplitter: '::' //[String|RegExp]: You can customize the part which splits namespace and translationKeys.
  * }
- * 
+ *
  * var t = libTranslate.getTranslationFunction(messages, [options])
- * 
+ *
  * t('translationKey')
  * t('translationKey', count)
  * t('translationKey', {replaceKey: 'replacevalue'})
@@ -31,15 +31,14 @@
  * @licence May be freely distributed under the MIT license.
  */
 
-/*global window, console */
-;(function () {
+module.exports = function () {
     'use strict';
 
     var isNumeric = function(obj) { return !isNaN(parseFloat(obj)) && isFinite(obj); };
     var isObject = function(obj) { return typeof obj === 'object' && obj !== null; };
     var isString = function(obj) { return Object.prototype.toString.call(obj) === '[object String]'; };
 
-    window.libTranslate = {
+    function libTranslate() {
         getTranslationFunction: function(messageObject, options) {
             options = isObject(options) ? options : {};
 
@@ -54,7 +53,7 @@
                 var components = translationKey.split(namespaceSplitter); //@todo make this more robust. maybe support more levels?
                 var namespace = components[0];
                 var key = components[1];
-             
+
                 if(messageObject[namespace] && messageObject[namespace][key]) {
                     return messageObject[namespace][key];
                 }
@@ -137,4 +136,4 @@
             };
         }
     };
-})();
+};
